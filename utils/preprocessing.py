@@ -1,32 +1,39 @@
-from sklearn.preprocessing import StandardScaler   # fonction déjà définie (scikit-learn)
+
+import pandas as pd
 
 
-class Preprocessor:
-<<<<<<< HEAD
-    """Prétraitement des données : nettoyage et normalisation."""
-=======
->>>>>>> fa43aba (version 2)
+class Preprocessing:
+    def __init__(self, file_path):
+        self.file_path = file_path
 
-    def __init__(self):
-        self.scaler = StandardScaler()
+    def load_data(self):
+        data = pd.read_csv(self.file_path)
 
-    @staticmethod
-    def clean(df):
-        """Supprime les doublons et les lignes avec valeurs manquantes."""
-        return df.drop_duplicates().dropna()
+        # Vérifier les colonnes nécessaires
+        features = [
+            "age",
+            "temperature",
+            "toux",
+            "saturation_o2",
+            "globules_blancs",
+            "crp",
+            "maux_de_tete",
+            "contact_infecte"
+        ]
 
-    def fit(self, X):
-        """Apprend la moyenne et l'écart-type (sur le train uniquement)."""
-        self.scaler.fit(X)
-        return self
+        target = "infecte"
 
-    def transform(self, X):
-        """Normalise X (moyenne 0, écart-type 1)."""
-        return self.scaler.transform(X)
+        missing_columns = [
+            col for col in features + [target]
+            if col not in data.columns
+        ]
 
-    def fit_transform(self, X):
-<<<<<<< HEAD
-        return self.fit(X).transform(X)
-=======
-        return self.fit(X).transform(X)
->>>>>>> fa43aba (version 2)
+        if missing_columns:
+            raise ValueError(
+                f"Colonnes absentes du dataset : {missing_columns}"
+            )
+
+        X = data[features]
+        y = data[target]
+
+        return X, y

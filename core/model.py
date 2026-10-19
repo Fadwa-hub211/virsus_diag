@@ -1,11 +1,15 @@
+
 from abc import ABC, abstractmethod
 
-class BaseModel(ABC):
+
+class Model(ABC):
 
     @abstractmethod
     def fit(self, X, y):
-        """Entraîne le modèle."""
+        """Entraîner le modèle."""
+        pass
 
     @abstractmethod
     def predict(self, X):
-        """Retourne la probabilité d'infection (0 à 1) pour chaque ligne de X."""
+        """Prédire les probabilités."""
+        pass
